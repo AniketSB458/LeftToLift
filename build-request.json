@@ -1,0 +1,189 @@
+{
+  "kind": "build_request",
+  "title": "Add separate login pages and dashboards for Hotel, NGO, Volunteer, and Admin entities",
+  "projectName": "Left2Lift",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Extend the backend data model to support entity-type-specific user registration and authentication. Add an `entityType` field (variant: #hotel, #ngo, #volunteer, #admin) to the UserProfile type. Provide backend endpoints to register and retrieve profiles by entity type, and a dedicated admin role check for protected operations.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add login for different entitites like hotel,ngo,volenteer,admin"
+        ]
+      },
+      "acceptanceCriteria": [
+        "UserProfile includes an `entityType` field supporting hotel, ngo, volunteer, and admin variants",
+        "Backend exposes a registerProfile or updateProfile endpoint that accepts entityType",
+        "Admin-only endpoints reject calls from non-admin principals"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a unified login landing page at `/login` that displays four distinct login entry points: Hotel, NGO, Volunteer, and Admin. Each entry point should visually represent the entity with an icon and label, and navigate to that entity's dedicated login page on click.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add login for different entitites like hotel,ngo,volenteer,admin and create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A `/login` route renders a page with four clearly labeled entity cards: Hotel, NGO, Volunteer, Admin",
+        "Clicking each card navigates to the corresponding dedicated login page",
+        "The page is accessible without authentication"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create a dedicated Hotel login page at `/login/hotel`. It should use Internet Identity for authentication, set the user's entityType to `hotel` upon first login, and redirect to a Hotel-specific dashboard after successful login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route `/login/hotel` exists and renders a Hotel-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as `hotel` in the user profile",
+        "User is redirected to `/hotel-dashboard` after login"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Create a dedicated NGO login page at `/login/ngo`. It should use Internet Identity for authentication, set the user's entityType to `ngo` upon first login, and redirect to the existing NGO dashboard after successful login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route `/login/ngo` exists and renders an NGO-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as `ngo` in the user profile",
+        "User is redirected to `/ngo-dashboard` after login"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create a dedicated Volunteer login page at `/login/volunteer`. It should use Internet Identity for authentication, set the user's entityType to `volunteer` upon first login, and redirect to the existing Volunteer dashboard after successful login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route `/login/volunteer` exists and renders a Volunteer-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as `volunteer` in the user profile",
+        "User is redirected to `/volunteer-dashboard` after login"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Create a dedicated Admin login page at `/login/admin`. It should use Internet Identity for authentication, set the user's entityType to `admin` upon first login, and redirect to the existing Admin Analytics dashboard after successful login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route `/login/admin` exists and renders an Admin-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as `admin` in the user profile",
+        "User is redirected to `/admin` after login"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create a Hotel-specific dashboard page at `/hotel-dashboard`. It should display hotel-relevant actions such as posting surplus food donations and viewing donation history. Protect this route so only users with entityType `hotel` can access it; others should be redirected to `/login/hotel`.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add login for different entitites like hotel"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route `/hotel-dashboard` exists and is accessible only to users with entityType `hotel`",
+        "Dashboard displays hotel-specific sections: post food donation, view past donations",
+        "Non-hotel users are redirected to `/login/hotel`"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Update the `RoleGuard` component and the `useRoleBasedAccess` hook to handle the new `hotel` entity type in addition to the existing roles, granting hotel users access to `/hotel-dashboard` and the food donation form.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add login for different entitites like hotel,ngo,volenteer,admin"
+        ]
+      },
+      "acceptanceCriteria": [
+        "`useRoleBasedAccess` returns `hotel` as a valid role derived from entityType",
+        "`RoleGuard` correctly permits hotel users to access hotel-specific routes",
+        "Existing NGO, volunteer, and admin role guards remain unaffected"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Update the main navigation bar in `App.tsx` to show entity-appropriate navigation links based on the logged-in user's entityType. Hotels see donation-related links; NGOs see NGO dashboard; Volunteers see volunteer dashboard; Admins see admin analytics. Unauthenticated users see a link to `/login`.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "create seprate login,pages"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigation links change based on the authenticated user's entityType",
+        "Unauthenticated users see a 'Login' link pointing to `/login`",
+        "Each entity type sees only the navigation links relevant to their role"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "All authentication must use Internet Identity — no username/password flows",
+    "Existing NGO, Volunteer, and Admin dashboards must remain functional after changes"
+  ],
+  "nonGoals": [
+    "Building a separate backend service per entity type",
+    "Third-party OAuth or social login",
+    "Real-time notifications or messaging between entities",
+    "Changing the existing food safety engine or NGO matching logic"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

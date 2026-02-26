@@ -1,0 +1,174 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add separate login pages and dashboards for Hotel, NGO, Volunteer, and Admin entities",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "summary": "Create a unified login landing page at /login with four entity entry points",
+      "acceptanceCriteria": [
+        "A /login route renders a page with four clearly labeled entity cards: Hotel, NGO, Volunteer, Admin",
+        "Clicking each card navigates to the corresponding dedicated login page",
+        "The page is accessible without authentication"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LoginLanding.tsx",
+          "operation": "create",
+          "description": "Create a login landing page that displays four entity-type cards (Hotel, NGO, Volunteer, Admin) with icons and labels. Each card navigates to its dedicated login route on click. Use glass-card styling consistent with the app's design system and ensure accessibility without authentication."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /login route pointing to the LoginLanding page component. Add this route to the router configuration in the routes array, ensuring it is accessible without authentication (no RoleGuard wrapper)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Create a dedicated Hotel login page at /login/hotel with Internet Identity authentication",
+      "acceptanceCriteria": [
+        "Route /login/hotel exists and renders a Hotel-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as hotel in the user profile",
+        "User is redirected to /hotel-dashboard after login"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HotelLogin.tsx",
+          "operation": "create",
+          "description": "Create a Hotel-branded login page using Internet Identity for authentication. On successful login, check if the user has a profile; if not, create one with entityType set to 'hotel'. After authentication and profile setup, redirect to /hotel-dashboard. Use the useInternetIdentity hook and integrate with useGetCallerUserProfile and useSaveCallerUserProfile hooks. Display hotel-themed branding consistent with the app's visual identity."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /login/hotel route pointing to the HotelLogin page component. Ensure this route is accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Create a dedicated NGO login page at /login/ngo with Internet Identity authentication",
+      "acceptanceCriteria": [
+        "Route /login/ngo exists and renders an NGO-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as ngo in the user profile",
+        "User is redirected to /ngo-dashboard after login"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/NgoLogin.tsx",
+          "operation": "create",
+          "description": "Create an NGO-branded login page using Internet Identity for authentication. On successful login, check if the user has a profile; if not, create one with entityType set to 'ngo'. After authentication and profile setup, redirect to /ngo-dashboard (existing route). Use the useInternetIdentity hook and integrate with useGetCallerUserProfile and useSaveCallerUserProfile hooks. Display NGO-themed branding consistent with the app's visual identity."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /login/ngo route pointing to the NgoLogin page component. Ensure this route is accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create a dedicated Volunteer login page at /login/volunteer with Internet Identity authentication",
+      "acceptanceCriteria": [
+        "Route /login/volunteer exists and renders a Volunteer-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as volunteer in the user profile",
+        "User is redirected to /volunteer-dashboard after login"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/VolunteerLogin.tsx",
+          "operation": "create",
+          "description": "Create a Volunteer-branded login page using Internet Identity for authentication. On successful login, check if the user has a profile; if not, create one with entityType set to 'volunteer'. After authentication and profile setup, redirect to /volunteer-dashboard (existing route). Use the useInternetIdentity hook and integrate with useGetCallerUserProfile and useSaveCallerUserProfile hooks. Display volunteer-themed branding consistent with the app's visual identity."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /login/volunteer route pointing to the VolunteerLogin page component. Ensure this route is accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Create a dedicated Admin login page at /login/admin with Internet Identity authentication",
+      "acceptanceCriteria": [
+        "Route /login/admin exists and renders an Admin-branded login page",
+        "Clicking login triggers Internet Identity authentication",
+        "On successful login, entityType is saved as admin in the user profile",
+        "User is redirected to /admin after login"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AdminLogin.tsx",
+          "operation": "create",
+          "description": "Create an Admin-branded login page using Internet Identity for authentication. On successful login, check if the user has a profile; if not, create one with entityType set to 'admin'. After authentication and profile setup, redirect to /admin (existing route for AdminAnalytics). Use the useInternetIdentity hook and integrate with useGetCallerUserProfile and useSaveCallerUserProfile hooks. Display admin-themed branding consistent with the app's visual identity."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /login/admin route pointing to the AdminLogin page component. Ensure this route is accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Create a Hotel-specific dashboard page at /hotel-dashboard with hotel-relevant actions",
+      "acceptanceCriteria": [
+        "Route /hotel-dashboard exists and is accessible only to users with entityType hotel",
+        "Dashboard displays hotel-specific sections: post food donation, view past donations",
+        "Non-hotel users are redirected to /login/hotel"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HotelDashboard.tsx",
+          "operation": "create",
+          "description": "Create a Hotel-specific dashboard page displaying hotel-relevant actions: a prominent button/section to post a new food donation (linking to /donate-food or embedding the form) and a section showing the hotel's past donations with status badges. Fetch donations using useGetAllDonations and filter by the current user's donations. Display donation cards with food type, quantity, status, and timestamp. Use glass-card styling and the app's green-orange theme."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the /hotel-dashboard route pointing to the HotelDashboard page component. Wrap this route with RoleGuard requiring the 'hotel' role so only hotel users can access it. Non-hotel users will be redirected to /login/hotel by the guard logic."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Update RoleGuard and useRoleBasedAccess to handle the new hotel entity type",
+      "acceptanceCriteria": [
+        "useRoleBasedAccess returns hotel as a valid role derived from entityType",
+        "RoleGuard correctly permits hotel users to access hotel-specific routes",
+        "Existing NGO, volunteer, and admin role guards remain unaffected"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useRoleBasedAccess.ts",
+          "operation": "modify",
+          "description": "Extend the useRoleBasedAccess hook to recognize 'hotel' as a valid role derived from userProfile.entityType. Map entityType 'hotel' to the 'hotel' role. Update the role-based navigation visibility flags to include hotel-specific routes (e.g., canAccessHotelDashboard). Ensure existing role mappings for ngo, volunteer, admin, and donor remain unaffected."
+        },
+        {
+          "path": "frontend/src/components/RoleGuard.tsx",
+          "operation": "modify",
+          "description": "Update the RoleGuard component to accept 'hotel' as a valid allowed role. Ensure that hotel users are permitted to access hotel-specific routes and are redirected to /login/hotel if they lack the hotel role. Preserve existing redirect logic for ngo, volunteer, and admin roles."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Update the main navigation bar to show entity-appropriate navigation links based on the logged-in user's entityType",
+      "acceptanceCriteria": [
+        "Navigation links change based on the authenticated user's entityType",
+        "Unauthenticated users see a 'Login' link pointing to /login",
+        "Each entity type sees only the navigation links relevant to their role"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update the navigation bar rendering logic in App.tsx to conditionally display navigation links based on the current user's entityType from the userProfile. For unauthenticated users, show a 'Login' link pointing to /login. For hotel users, show links to /hotel-dashboard and /donate-food. For NGO users, show /ngo-dashboard. For volunteer users, show /volunteer-dashboard. For admin users, show /admin. Use the useRoleBasedAccess hook to determine visibility flags and render links accordingly. Ensure the existing navigation structure and branding remain intact."
+        }
+      ]
+    }
+  ]
+}

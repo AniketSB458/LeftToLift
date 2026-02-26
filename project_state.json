@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Platform with multi-entity authentication system supporting separate login pages and dashboards for Hotels, NGOs, Volunteers, and Admins.",
+  "architectural_notes": [
+    "Multi-entity auth: separate login pages and roles for Hotel, NGO, Volunteer, and Admin"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-unified-login-landing-page-at-login-that-displays-four-distinct-login-entry-points-hotel-ngo-volunteer-and-admin-each-entry-point-should-visually-represent-the-entity-with-an-icon-and-label-and-navigate-to-that-entity-s-dedicated-login-page-on-click",
+      "title": "Create a unified login landing page at `/login` that displays four distinct login entry points: Hotel, NGO, Volunteer, and Admin. Each entry point should visually represent the entity with an icon and label, and navigate to that entity's dedicated login page on click.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dedicated-hotel-login-page-at-login-hotel-it-should-use-internet-identity-for-authentication-set-the-user-s-entitytype-to-hotel-upon-first-login-and-redirect-to-a-hotel-specific-dashboard-after-successful-login",
+      "title": "Create a dedicated Hotel login page at `/login/hotel`. It should use Internet Identity for authentication, set the user's entityType to `hotel` upon first login, and redirect to a Hotel-specific dashboard after successful login.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dedicated-ngo-login-page-at-login-ngo-it-should-use-internet-identity-for-authentication-set-the-user-s-entitytype-to-ngo-upon-first-login-and-redirect-to-the-existing-ngo-dashboard-after-successful-login",
+      "title": "Create a dedicated NGO login page at `/login/ngo`. It should use Internet Identity for authentication, set the user's entityType to `ngo` upon first login, and redirect to the existing NGO dashboard after successful login.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dedicated-volunteer-login-page-at-login-volunteer-it-should-use-internet-identity-for-authentication-set-the-user-s-entitytype-to-volunteer-upon-first-login-and-redirect-to-the-existing-volunteer-dashboard-after-successful-login",
+      "title": "Create a dedicated Volunteer login page at `/login/volunteer`. It should use Internet Identity for authentication, set the user's entityType to `volunteer` upon first login, and redirect to the existing Volunteer dashboard after successful login.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dedicated-admin-login-page-at-login-admin-it-should-use-internet-identity-for-authentication-set-the-user-s-entitytype-to-admin-upon-first-login-and-redirect-to-the-existing-admin-analytics-dashboard-after-successful-login",
+      "title": "Create a dedicated Admin login page at `/login/admin`. It should use Internet Identity for authentication, set the user's entityType to `admin` upon first login, and redirect to the existing Admin Analytics dashboard after successful login.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-hotel-specific-dashboard-page-at-hotel-dashboard-it-should-display-hotel-relevant-actions-such-as-posting-surplus-food-donations-and-viewing-donation-history-protect-this-route-so-only-users-with-entitytype-hotel-can-access-it-others-should-be-redirected-to-login-hotel",
+      "title": "Create a Hotel-specific dashboard page at `/hotel-dashboard`. It should display hotel-relevant actions such as posting surplus food donations and viewing donation history. Protect this route so only users with entityType `hotel` can access it; others should be redirected to `/login/hotel`.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-roleguard-component-and-the-userolebasedaccess-hook-to-handle-the-new-hotel-entity-type-in-addition-to-the-existing-roles-granting-hotel-users-access-to-hotel-dashboard-and-the-food-donation-form",
+      "title": "Update the `RoleGuard` component and the `useRoleBasedAccess` hook to handle the new `hotel` entity type in addition to the existing roles, granting hotel users access to `/hotel-dashboard` and the food donation form.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-main-navigation-bar-in-app-tsx-to-show-entity-appropriate-navigation-links-based-on-the-logged-in-user-s-entitytype-hotels-see-donation-related-links-ngos-see-ngo-dashboard-volunteers-see-volunteer-dashboard-admins-see-admin-analytics-unauthenticated-users-see-a-link-to-login",
+      "title": "Update the main navigation bar in `App.tsx` to show entity-appropriate navigation links based on the logged-in user's entityType. Hotels see donation-related links; NGOs see NGO dashboard; Volunteers see volunteer dashboard; Admins see admin analytics. Unauthenticated users see a link to `/login`.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create separate login pages and authentication flows for Hotel, NGO, Volunteer, and Admin entities",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Extend the backend data model to support entity-type-specific user registration and authentication. Add an `entityType` field (variant: #hotel, #ngo, #volunteer, #admin) to the UserProfile type. Provide backend endpoints to register and retrieve profiles by entity type, and a dedicated admin role check for protected operations.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Left2Lift",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

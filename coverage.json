@@ -1,0 +1,155 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-25T07:06:24.140Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 9,
+    "implemented": 8,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Extend the backend data model to support entity-type-specific user registration and authentication. Add an `entityType` field (variant: #hotel, #ngo, #volunteer, #admin) to the UserProfile type. Provide backend endpoints to register and retrieve profiles by entity type, and a dedicated admin role check for protected operations.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Create a unified login landing page at `/login` that displays four distinct login entry points: Hotel, NGO, Volunteer, and Admin. Each entry point should visually represent the entity with an icon and label, and navigate to that entity's dedicated login page on click.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LoginLanding.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LoginLanding.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Create a dedicated Hotel login page at `/login/hotel`. It should use Internet Identity for authentication, set the user's entityType to `hotel` upon first login, and redirect to a Hotel-specific dashboard after successful login.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HotelLogin.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HotelLogin.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Create a dedicated NGO login page at `/login/ngo`. It should use Internet Identity for authentication, set the user's entityType to `ngo` upon first login, and redirect to the existing NGO dashboard after successful login.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/NgoLogin.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/NgoLogin.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Create a dedicated Volunteer login page at `/login/volunteer`. It should use Internet Identity for authentication, set the user's entityType to `volunteer` upon first login, and redirect to the existing Volunteer dashboard after successful login.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/VolunteerLogin.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/VolunteerLogin.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Create a dedicated Admin login page at `/login/admin`. It should use Internet Identity for authentication, set the user's entityType to `admin` upon first login, and redirect to the existing Admin Analytics dashboard after successful login.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/AdminLogin.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/AdminLogin.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Create a Hotel-specific dashboard page at `/hotel-dashboard`. It should display hotel-relevant actions such as posting surplus food donations and viewing donation history. Protect this route so only users with entityType `hotel` can access it; others should be redirected to `/login/hotel`.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HotelDashboard.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HotelDashboard.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Update the `RoleGuard` component and the `useRoleBasedAccess` hook to handle the new `hotel` entity type in addition to the existing roles, granting hotel users access to `/hotel-dashboard` and the food donation form.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useRoleBasedAccess.ts",
+          "frontend/src/components/RoleGuard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useRoleBasedAccess.ts",
+          "frontend/src/components/RoleGuard.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Update the main navigation bar in `App.tsx` to show entity-appropriate navigation links based on the logged-in user's entityType. Hotels see donation-related links; NGOs see NGO dashboard; Volunteers see volunteer dashboard; Admins see admin analytics. Unauthenticated users see a link to `/login`.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/App.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/DonationCard.tsx",
+    "frontend/src/components/ProfileSetupModal.tsx",
+    "frontend/src/components/RoleGuard.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useRoleBasedAccess.ts",
+    "frontend/src/pages/AdminLogin.tsx",
+    "frontend/src/pages/DonateFood.tsx",
+    "frontend/src/pages/HotelDashboard.tsx",
+    "frontend/src/pages/HotelLogin.tsx",
+    "frontend/src/pages/LoginLanding.tsx",
+    "frontend/src/pages/NgoDashboard.tsx",
+    "frontend/src/pages/NgoLogin.tsx",
+    "frontend/src/pages/VolunteerDashboard.tsx",
+    "frontend/src/pages/VolunteerLogin.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
