@@ -1,14 +1,28 @@
-# Specification
+# Left2Lift – Authentication, Routing & Loading Fix
 
-## Summary
-**Goal:** Add separate login pages and role-specific dashboards for Hotel, NGO, Volunteer, and Admin entity types in the Left2Lift application.
+## Current State
+App uses Internet Computer's Internet Identity (not JWT). Three critical bugs cause login loops, black screens, and infinite loading:
 
-**Planned changes:**
-- Add an `entityType` field (hotel, ngo, volunteer, admin) to the UserProfile backend data model, with registration/update endpoints and admin-only role checks
-- Create a unified login landing page at `/login` showing four entity cards (Hotel, NGO, Volunteer, Admin) that navigate to their respective login pages
-- Create dedicated login pages at `/login/hotel`, `/login/ngo`, `/login/volunteer`, and `/login/admin`, each using Internet Identity and saving the appropriate `entityType` on first login
-- Create a new Hotel dashboard at `/hotel-dashboard` with sections for posting food donations and viewing donation history, accessible only to hotel entity users
-- Update `RoleGuard` and `useRoleBasedAccess` to support the new `hotel` entity type alongside existing roles
-- Update the main navigation bar to display entity-appropriate links based on the logged-in user's `entityType`, with unauthenticated users seeing a link to `/login`
+1. **`useActor` aggressive refetch** — `useEffect` calls both `invalidateQueries` AND `refetchQueries` whenever the actor changes. This causes all queries (including userProfile) to refetch with the anonymous actor before the authenticated identity loads, resulting in role = 'guest' → RoleGuard redirects to login even for authenticated users.
 
-**User-visible outcome:** Users can select their entity type (Hotel, NGO, Volunteer, or Admin) on a login landing page, authenticate via Internet Identity on a dedicated branded page, and be redirected to their role-specific dashboard with relevant navigation links.
+2. **`useRoleBasedAccess` missing init check** — `isLoading` does not account for `isInitializing` from `useInternetIdentity`. So during the ~200ms while Internet Identity checks localStorage, `isLoading = false`, role = 'guest', and RoleGuard redirects.
+
+3. **`useInternetIdentity` re-init loop** — `authClient` is in the `useEffect` dependency array. After `setAuthClient()` runs inside the effect, the effect re-fires (the `cancelled` flag partially mitigates but does not eliminate this).
+
+## Requested Changes (Diff)
+
+### Add
+- `isInitializing` guard in `useRoleBasedAccess` so RoleGuard always shows a spinner until Identity check completes
+
+### Modify
+- `useActor.ts`: Remove `refetchQueries` from the `useEffect` — keep only `invalidateQueries` (marks as stale; active queries auto-refetch)
+- `useRoleBasedAccess.ts`: Include `isInitializing` from `useInternetIdentity` in the `isLoading` computation
+- `useInternetIdentity.ts`: Remove `authClient` from `useEffect` deps (use a ref instead) to prevent re-initialization loop
+
+### Remove
+- `refetchQueries` call in `useActor` useEffect
+
+## Implementation Plan
+1. Fix `useInternetIdentity.ts` — replace `authClient` dep with a ref to prevent double-init
+2. Fix `useActor.ts` — remove `refetchQueries`, keep only `invalidateQueries`
+3. Fix `useRoleBasedAccess.ts` — add `isInitializing` to `isLoading`
